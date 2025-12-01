@@ -7,7 +7,7 @@ export const authService = {
     const redirectTo = makeRedirectUri();
 
     const validatedData = emailSchema.safeParse({ email });
-    
+
     if (!validatedData.success) {
       const firstError = validatedData.error.issues[0];
       return firstError.message;
@@ -21,7 +21,7 @@ export const authService = {
     });
 
     if (error) {
-      throw error;
+      return error.message;
     }
 
     return data;

@@ -5,6 +5,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/lib/theme';
 import { Tabs } from 'expo-router';
 import React from 'react';
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
@@ -36,6 +37,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
+     
     </Tabs>
   );
 }
