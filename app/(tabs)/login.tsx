@@ -1,16 +1,18 @@
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
-import { EmailFormData, emailSchema } from '@/lib/validations';
+import { emailSchema } from '@/lib/validations';
 import { authService } from '@/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Loader2 } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { toast } from 'sonner-native';
 
 export default function Login() {
+  const [loading, setLoading] = useState(false);
   const {
     handleSubmit,
     control,
@@ -20,17 +22,26 @@ export default function Login() {
     mode: 'onTouched',
   });
 
-  const onSubmit: SubmitHandler<EmailFormData> = (data) => {
-    toast('Hello, World!');
-    console.log(data);
-    authService.signIn(data.email);
+  const onSubmit = async (data: { email: string }) => {
+    setLoading(true);
+    try {
+      await authService.signIn(data.email);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <SafeAreaView className="flex-1 justify-end px-4">
       <View className="flex gap-2">
         <Input name="email" control={control} errors={errors}></Input>
-        <Button onPress={handleSubmit(onSubmit)}>
+
+        <Button onPress={handleSubmit(onSubmit)} loading={loading}>
+          <View className="pointer-events-none animate-spin">
+            <Icon as={Loader2} className="text-primary-foreground" />
+          </View>
           <Text>Login</Text>
         </Button>
       </View>
