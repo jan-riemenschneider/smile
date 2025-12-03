@@ -5,23 +5,17 @@ export const authService = {
   signIn: async (email: string) => {
     const redirectTo = makeRedirectUri();
 
-    try {
-      const { data, error } = await supabase.auth.signInWithOtp({
-        email: email,
-        options: {
-          emailRedirectTo: redirectTo,
-        },
-      });
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email: email,
+      options: {
+        emailRedirectTo: redirectTo,
+      },
+    });
 
-      if (error) {
-        console.log('Returning error message:', error);
-        }
-
-      return data;
-    } catch (e) {
-      console.log('Caught exception:', e);
-      throw e;
+    if (error) {
+      return error;
     }
+    return data;
   },
 
   getCurrentUser: async () => {
