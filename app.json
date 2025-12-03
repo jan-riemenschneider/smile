@@ -3,6 +3,7 @@
     "name": "smile",
     "slug": "smile",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "smile",
@@ -10,6 +11,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "jsEngine": "jsc",
       "bundleIdentifier": "com.janriemenschneider.smile",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -44,7 +46,22 @@
           }
         }
       ],
-      "expo-sqlite"
+      [
+        "expo-sqlite",
+        {
+          "enableFTS": true,
+          "useSQLCipher": true,
+          "android": {
+            // Override the shared configuration for Android
+            "enableFTS": false,
+            "useSQLCipher": false
+          },
+          "ios": {
+            // You can also override the shared configurations for iOS
+            "customBuildFlags": ["-DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_SNAPSHOT=1"]
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

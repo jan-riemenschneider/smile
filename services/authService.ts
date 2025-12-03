@@ -1,4 +1,3 @@
-import { emailSchema } from '@/lib/validations';
 import { supabase } from '@/utils/supabase';
 import { makeRedirectUri } from 'expo-auth-session';
 
@@ -6,25 +5,23 @@ export const authService = {
   signIn: async (email: string) => {
     const redirectTo = makeRedirectUri();
 
-    const validatedData = emailSchema.safeParse({ email });
+    try {
+      const { data, error } = await supabase.auth.signInWithOtp({
+        email: email,
+        options: {
+          emailRedirectTo: redirectTo,
+        },
+      });
 
-    if (!validatedData.success) {
-      const firstError = validatedData.error.issues[0];
-      return firstError.message;
+      if (error) {
+        console.log('Returning error message:', error);
+        }
+
+      return data;
+    } catch (e) {
+      console.log('Caught exception:', e);
+      throw e;
     }
-
-    const { data, error } = await supabase.auth.signInWithOtp({
-      email: email,
-      options: {
-        emailRedirectTo: redirectTo,
-      },
-    });
-
-    if (error) {
-      return error.message;
-    }
-
-    return data;
   },
 
   getCurrentUser: async () => {

@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { EmailFormData, emailSchema } from '@/lib/validations';
+import { authService } from '@/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -22,7 +23,7 @@ export default function Login() {
   const onSubmit: SubmitHandler<EmailFormData> = (data) => {
     toast('Hello, World!');
     console.log(data);
-    /* authService.signIn(data.email); */
+    authService.signIn(data.email);
   };
 
   return (
