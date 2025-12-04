@@ -4,6 +4,7 @@ import { Text } from '@/components/ui/text';
 import { emailSchema } from '@/lib/validations';
 import { authService } from '@/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
@@ -29,6 +30,10 @@ export default function Login() {
       console.error(error);
     } finally {
       setLoading(false);
+      router.replace({
+        pathname: '/(tabs)/checkEmailScreen',
+        params: { email: data.email },
+      });
     }
   };
 
