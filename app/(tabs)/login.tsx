@@ -34,7 +34,7 @@ export default function Login() {
 
   return (
     <SafeAreaView className="flex-1 justify-end px-4">
-      <View className="flex gap-2">
+      <View className="flex gap-3">
         <Input name="email" control={control} errors={errors} />
         <LoadingButton onPress={handleSubmit(onSubmit)} loading={loading}>
           <Text>Login</Text>

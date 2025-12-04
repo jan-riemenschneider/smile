@@ -7,7 +7,7 @@ type InputProps = TextInputProps & {
   control: any;
   name: string;
   required?: boolean;
-  errors?: FieldErrors;
+  errors: FieldErrors;
 };
 
 function Input({
@@ -46,7 +46,7 @@ function Input({
                 native: 'placeholder:text-muted-foreground/50',
               }),
               className,
-              cn(errors ? 'border-destructive' : null)
+              cn(errors[name]?.message ? 'border-destructive' : null)
             )}
             onBlur={onBlur}
             onChangeText={onChange}
@@ -55,7 +55,7 @@ function Input({
           />
         )}
       />
-      {errors && <Text variant="error">{errors[name]?.message?.toString()}</Text>}
+      {errors[name]?.message && <Text variant="error">{errors[name]?.message?.toString()}</Text>}
     </>
   );
 }
